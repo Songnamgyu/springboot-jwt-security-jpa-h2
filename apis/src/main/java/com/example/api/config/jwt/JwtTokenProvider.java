@@ -8,7 +8,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties.Authentication;
+
+import org.springframework.security.core.Authentication;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,9 +19,10 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+
 @Component
 //토큰의 생성, 토큰의 유효성을 검증 담당
-public class JwtTokenUtil {
+public class JwtTokenProvider {
 	
 	//1. Secretkey 설정
 	private String secretKey = "SECURITY-JWT_TOKEN-TUTORIAL";
@@ -28,8 +30,7 @@ public class JwtTokenUtil {
 	//2. 토큰 유효시간 설정
 	private long tokenValidMilisecond = 1000L * 60 * 60; // 1시간만 토큰 유지한다.
 	
-	//3.UserDetailsService 구현체 선언
-	private final UserDetailsService userDetailsService;
+	private  UserDetailsService userDetailsService;
 	
 	@PostConstruct
 	protected void init() {
@@ -51,7 +52,7 @@ public class JwtTokenUtil {
 	
 	//5. Jwt 토큰으로 인증정보를 조회
 	public Authentication getAuthentication(String token) {
-		UserDetails userDetails = userDetailsService.loadUserByUsername(this.getAuthentication(token));
+		UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
 		return new UsernamePasswordAuthenticationToken(userDetails, "" ,userDetails.getAuthorities());
 	}
 	
@@ -71,7 +72,7 @@ public class JwtTokenUtil {
 			Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
 			return !claims.getBody().getExpiration().before(new Date());
 		} catch (Exception e) {
-			// TODO: handle exception
+			return false;
 		}
 	}
 }
