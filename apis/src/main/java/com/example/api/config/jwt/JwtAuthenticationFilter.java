@@ -12,9 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 public class JwtAuthenticationFilter extends GenericFilterBean {
 
 	private  JwtTokenProvider jwtTokenProvider;
@@ -33,7 +31,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 		String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
 		
 		//2. 유효한 토큰인지 확인합니다.
-		if(token != null && jwtTokenProvider.vaildateToken(token)) {
+		if(token != null && jwtTokenProvider.validateToken(token)) {
 			
 			//3. 토큰이 유효하면 토큰으로부터 유저정보를 받아옵니다.
 			Authentication auth = jwtTokenProvider.getAuthentication(token);
