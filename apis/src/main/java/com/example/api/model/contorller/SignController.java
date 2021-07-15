@@ -2,6 +2,8 @@ package com.example.api.model.contorller;
 
 import java.util.Collections;
 
+import javax.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,6 +39,7 @@ public class SignController {
 	
 	
 	// 1. 회원가입
+	@Transactional
 	@ApiOperation(value = "가입", notes = "회원가입을 한다.")
 	@PostMapping(value = "/signup")
 	public CommonResult signIn(@ApiParam (value = "회원 ID : USER_ID", required = true ) @RequestParam String id ,
@@ -53,10 +56,8 @@ public class SignController {
 		return responseService.getSuccessResult();
 	}
 	
-	
-	
-	
 	// 2. 로그인 
+	@Transactional
 	@ApiOperation(value = "로그인" , notes = "USER_ID로 회원 로그인을 한다.")
 	@PostMapping(value ="/signin")
 	public SingleResult<String> signIn(@ApiParam(value = "회원 ID : USER_ID", required = true) @RequestParam String id,

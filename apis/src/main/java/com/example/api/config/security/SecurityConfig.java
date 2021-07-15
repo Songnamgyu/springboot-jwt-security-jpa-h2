@@ -25,7 +25,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	private final JwtTokenProvider jwtTokenProvider;
 	
-	
 	// authenticationManager를 Bean으로 등록합니다.
 	@Bean
 	@Override
@@ -41,16 +40,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 토큰 기반 인증이므로 세션 역시 사용하지 않습니다.
 			.and()
 			.authorizeRequests() //요청에 대한 사용권한 체크
-			.antMatchers("/join","/login","/v1/signin", "/v1/signup").permitAll()
+			.antMatchers("/v1/signin", "/v1/signup").permitAll()
 			.antMatchers(HttpMethod.GET, "/excpetion/**").permitAll()
-			.antMatchers("/admin/**").hasRole("ADMIN")
-			.antMatchers("/v1/users","/v1/user").hasAnyRole("USER", "ADMIN")
+			.antMatchers("/v1/admin/**").hasRole("ADMIN")
+			.antMatchers("/v1/users","/v1/user","/v1/user/**").hasAnyRole("USER", "ADMIN")
 			.anyRequest().authenticated()
 			.and()
 			//JWT token 필터를 id/password 인증 필터 전에 넣어야됨
 			.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
 	}
-
 	
 	//비밀번호 암호화 객체 선언
 	@Bean
@@ -60,7 +58,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-//		web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
 		web.ignoring().antMatchers("/h2-console/**", "/v2/api-docs", "/swagger-resources/**",
                 "/swagger-ui.html", "/webjars/**", "/swagger/**");
 	}

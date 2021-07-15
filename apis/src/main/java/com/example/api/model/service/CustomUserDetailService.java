@@ -18,8 +18,8 @@ public class CustomUserDetailService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String userPk) throws UsernameNotFoundException {
-		// TODO Auto-generated method stub
-		return userJpaRepo.findById(Long.valueOf(userPk)).orElseThrow(CUserNotFoundException::new);	}
+		
+		return userJpaRepo.findById(Long.valueOf(userPk)).orElseThrow(CUserNotFoundException::new);}
 
 	}
   

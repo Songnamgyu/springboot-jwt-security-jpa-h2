@@ -17,6 +17,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,6 +34,7 @@ public class User implements UserDetails {
 	private static final long serialVersionUID = 1957380853771500260L;
 
 	@Id
+	//@GenerateValue는 SQL에서으 sequence개념과 비슷하다
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
@@ -58,29 +61,38 @@ public class User implements UserDetails {
 	}
 
 	@Override
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	public String getUsername() {
 
-		return userId;
+		return this.userId;
 	}
+	
+	@Override
+	public String getPassword() {
 
+		return this.password;
+	}
+	
+
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@Override
 	public boolean isAccountNonExpired() {
 
 		return true;
 	}
-
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@Override
 	public boolean isAccountNonLocked() {
 
 		return true;
 	}
-
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@Override
 	public boolean isCredentialsNonExpired() {
 
 		return true;
 	}
-
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@Override
 	public boolean isEnabled() {
 
