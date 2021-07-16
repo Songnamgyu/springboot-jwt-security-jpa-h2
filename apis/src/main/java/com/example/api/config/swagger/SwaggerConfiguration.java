@@ -15,23 +15,27 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfiguration {
 
-	
+	private String version;
+
 
     @Bean
     public Docket swaggerApi() {
     	
-    
+    	version = "Aiden-V1";
     	
         return new Docket(DocumentationType.SWAGGER_2).apiInfo(swaggerInfo()).select()
                 .apis(RequestHandlerSelectors.basePackage("com.example.api"))
                 .paths(PathSelectors.ant("/v1/**"))
                 .build()
-                .useDefaultResponseMessages(true); 
+                .useDefaultResponseMessages(false)
+                .groupName(version); 
     }
 
+    
+    
     private ApiInfo swaggerInfo() {
-        return new ApiInfoBuilder().title("Spring API Documentation(로그인, 회원가입")
+        return new ApiInfoBuilder().title("Spring API Documentation(로그인, 회원가입)")
                 .description("SpringBoot에서 Security-JwtToken을 이용한 JPA적용")
-                .license("회원가입, 로그인 관련 API").licenseUrl("http://localhost:8002/swagger-ui.html").version("1").build();
+                .license("회원가입, 로그인 관련 API").licenseUrl("http://localhost:8002/swagger-ui.html").build();
     }
 }
