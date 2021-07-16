@@ -27,6 +27,8 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import net.bytebuddy.asm.Advice.This;
 
@@ -34,6 +36,12 @@ import net.bytebuddy.asm.Advice.This;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/v1")
+@ApiResponses({
+    @ApiResponse(code = 200, message = "OK 성공 !!"),
+    @ApiResponse(code = 500, message = "서버 에러 ! Internal Server Error !!"),
+    @ApiResponse(code = 404, message = "페이지를 찾을수 없어요! Not Found !!"),
+    @ApiResponse(code = 403, message = "접근 거부 ! Access Denied !!")
+})
 public class UserController {
 
 	private static final Logger logger = LoggerFactory.getLogger(This.class);
@@ -47,7 +55,7 @@ public class UserController {
 		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")		
 	})
 	@ApiOperation(value = "회원리스트 조회" , notes = "모든 회원을 조회한다.")
-	@GetMapping(value="/users")
+	@GetMapping(value="/admin/selectAll")
 	public ListResult<User> findAllUser(){
 		// 결과 데이터가 여러건인 경우 getListResult를 이용해서 결과를 출력한다.
 		return responsService.getListResult(userJpaRepo.findAll());
@@ -57,7 +65,7 @@ public class UserController {
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
 	})
-	@ApiOperation(value = "회원 단건 조회", notes = "회원번호(Id)로 회원을 조회한다.")
+	@ApiOperation(value = "해당 회원의 정보 조회", notes = "회원번호(Id)로 회원을 조회한다.")
 	@GetMapping(value = "/user")
 	public SingleResult<User> findUserById(@ApiParam(value = "언어", defaultValue = "ko" ) @RequestParam String lang) {
 
@@ -98,7 +106,7 @@ public class UserController {
 		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token" , required = true, dataType = "String", paramType = "header") 
 	})
 	@ApiOperation(value= "회원삭제" , notes = "회원정보를 삭제한다")
-	@DeleteMapping(value = "/user/{id}")
+	@DeleteMapping(value = "/admin/delete/{id}")
 	public CommonResult delete (@ApiParam(value = "회원번호" , required = true) @PathVariable Long id) {
 
 		userJpaRepo.deleteById(id);

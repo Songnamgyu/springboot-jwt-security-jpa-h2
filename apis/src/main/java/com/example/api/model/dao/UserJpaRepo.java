@@ -10,5 +10,7 @@ public interface UserJpaRepo extends JpaRepository<User, Long> {
 
 	
 
+	
+
 
 }

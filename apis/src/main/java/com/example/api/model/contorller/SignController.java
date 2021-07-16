@@ -22,12 +22,20 @@ import com.example.api.model.service.ResponseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 
 @Api(tags = {"1. Sign"})
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value="/v1")
+@ApiResponses({
+    @ApiResponse(code = 200, message = "OK 성공 !!"),
+    @ApiResponse(code = 500, message = "서버 에러 ! Internal Server Error !!"),
+    @ApiResponse(code = 404, message = "페이지를 찾을수 없어요! Not Found !!"),
+    @ApiResponse(code = 403, message = "접근 거부 ! Access Denied !!")
+})
 public class SignController {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
