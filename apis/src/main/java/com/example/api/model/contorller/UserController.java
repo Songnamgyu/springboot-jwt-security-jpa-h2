@@ -50,6 +50,7 @@ public class UserController {
 	private final ResponseService responsService;
 	private final PasswordEncoder passwordEncoder;
 
+	
 	// 1. 전체 회원 조회
 	@ApiImplicitParams({ 
 		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")		
@@ -57,6 +58,7 @@ public class UserController {
 	@ApiOperation(value = "회원리스트 조회" , notes = "모든 회원을 조회한다.")
 	@GetMapping(value="/admin/selectAll")
 	public ListResult<User> findAllUser(){
+		
 		// 결과 데이터가 여러건인 경우 getListResult를 이용해서 결과를 출력한다.
 		return responsService.getListResult(userJpaRepo.findAll());
 	}
@@ -90,6 +92,7 @@ public class UserController {
 			@ApiParam(value = "회원이름", required = true) @RequestParam String name	,
 			@ApiParam(value = "비밀번호", required = true) @RequestParam String password,
 			@ApiParam(value = "회원아이디", required = true) @RequestParam String id) {
+		
 		User user = User.builder()
 				.id(pk)
 				.password(passwordEncoder.encode(password))
@@ -135,6 +138,7 @@ public class UserController {
 				.userName(name)
 				.roles(Collections.singletonList("ROLE_" + role))
 				.build();
+		
 		return responsService.getSingleResult(userJpaRepo.save(user));
 	}
 

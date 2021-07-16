@@ -15,6 +15,7 @@ public class ResponseService {
     public enum CommonResponse {
         SUCCESS(0, "성공하였습니다.");
 
+    	
         int code;
         String msg;
 

@@ -45,7 +45,7 @@ public class SignController {
 	private final PasswordEncoder passwordEncoder;
 	private final UserJpaRepo userJpaRepo;
 	
-	
+
 	// 1. 회원가입
 	@Transactional
 	@ApiOperation(value = "가입", notes = "회원가입을 한다.")
