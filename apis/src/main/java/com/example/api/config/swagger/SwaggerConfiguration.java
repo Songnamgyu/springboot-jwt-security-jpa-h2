@@ -30,12 +30,10 @@ public class SwaggerConfiguration {
                 .useDefaultResponseMessages(false)
                 .groupName(version); 
     }
-
-    
-    
+   
     private ApiInfo swaggerInfo() {
-        return new ApiInfoBuilder().title("Spring API Documentation(로그인, 회원가입)")
+        return new ApiInfoBuilder().title("Spring API Documentation(로그인, 회원가입, 게시판)")
                 .description("SpringBoot에서 Security-JwtToken을 이용한 JPA적용")
-                .license("회원가입, 로그인 관련 API").licenseUrl("http://localhost:8002/swagger-ui.html").build();
+                .license("회원가입, 로그인, 게시판 관련 API").licenseUrl("http://localhost:8002/swagger-ui.html").build();
     }
 }
