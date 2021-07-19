@@ -15,5 +15,7 @@ public class BoardUpdateRequestDTO {
 	public BoardUpdateRequestDTO(String subject, String content) {
 		this.subject = subject;
 		this.content = content;
+		//
+		
 	}
 }
