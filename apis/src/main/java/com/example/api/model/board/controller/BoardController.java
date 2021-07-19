@@ -2,10 +2,14 @@ package com.example.api.model.board.controller;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,7 +50,7 @@ public class BoardController {
 
 	// 1. 게시글 - 목록 조회
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")		
+		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "Please Input AccessToken", required = true, dataType = "String", paramType = "header")		
 	})
 	@ApiOperation(value = "게시글 조회" , notes = "게시글을 조회한다.")
 	@GetMapping(value = "/user/selectAllBoard")
@@ -59,11 +63,11 @@ public class BoardController {
 	
 	// 2. 게시글 - 상세 조회
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")		
+		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "Please Input AccessToken", required = true, dataType = "String", paramType = "header")		
 	})
 	@ApiOperation(value = "게시글 상세조회" , notes = "해당게시글을 상세 조회한다.")
 	@PostMapping(value = "/user/board/{seq}")
-	public ResponseEntity<BoardResponseDTO> findById(@PathVariable("seq") Long seq){
+	public ResponseEntity<BoardResponseDTO> findById(@RequestParam("seq") Long seq){
 		
 		BoardResponseDTO boardResponseDTO = boardService.findById(seq);
 		
@@ -73,7 +77,7 @@ public class BoardController {
 	
 	// 3. 게시글 등록
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")		
+		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "Please Input AccessToken", required = true, dataType = "String", paramType = "header")		
 	})
 	@ApiOperation(value = "게시글 등록" , notes = "게시글을 등록합니다.")
 	@PostMapping(value = "/user/board/regist")
@@ -89,10 +93,11 @@ public class BoardController {
 	
 	// 4. 게시글 수정
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")		
+		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "Please Input AccessToken", required = true, dataType = "String", paramType = "header")		
 	})
 	@ApiOperation(value = "게시글 수정" , notes = "게시글을 수정합니다.")
 	@PutMapping(value = "/user/board/update/{seq}")
+	@Transactional
 	public ResponseEntity<Long> updateBoard (@PathVariable("seq") Long seq,
 			@ApiParam (value = "제목 : ", required = true ) @RequestParam String subject,	
 			@ApiParam (value = "내용: " , required = true) @RequestParam String content) {
@@ -100,7 +105,23 @@ public class BoardController {
 			BoardUpdateRequestDTO board = new BoardUpdateRequestDTO(subject,content);
 		
 			Long updateBoardSeq = boardService.update(seq, board);
+			logger.info("board : " + board.toString());
+			logger.info("updateBoardSeq : " + updateBoardSeq.toString());
 			
 			return new ResponseEntity<Long>(updateBoardSeq, HttpStatus.CREATED);
+	}
+	
+	// 5. 게시글 삭제
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "Please Input AccessToken", required = true , dataType = "String", paramType = "header")
+	})
+	@ApiOperation(value = "게시글 삭제", notes = "게시글을 삭제 합니다.")
+	@DeleteMapping(value = "/user/board/delete/{seq}",  produces = { MediaType.APPLICATION_JSON_VALUE })
+	@Transactional
+	public ResponseEntity<Long> deleteBoard (@PathVariable("seq") Long seq){
+		
+		boardService.deleteBoard(seq);
+		
+		return new ResponseEntity<Long>(seq, HttpStatus.NO_CONTENT);
 	}
 }

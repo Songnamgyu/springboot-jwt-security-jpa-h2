@@ -3,6 +3,8 @@ package com.example.api.model.board.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.example.api.model.board.dto.BoardResponseDTO;
@@ -11,11 +13,13 @@ import com.example.api.model.board.dto.entity.Board;
 import com.example.api.model.board.repository.BoardRepository;
 
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.asm.Advice.This;
 
 @Service
 @RequiredArgsConstructor
 public class BoardService {
 
+	private static final Logger logger = LoggerFactory.getLogger(BoardService.class);
 	private final BoardRepository boardRepository;
 
 	/* 1. 게시글 - 목록 조회 */ 
@@ -29,7 +33,7 @@ public class BoardService {
 	/* 2. 게시글 - 상세 조회 */
 	public BoardResponseDTO findById(Long seq) {
 
-		Board board = boardRepository.findById(seq).orElseThrow(() -> new IllegalAccessError("[seq= " + seq + "] 해당 게시글이 존재하지 않습니다."));
+		Board board = boardRepository.findById(seq).orElseThrow(() -> new IllegalAccessError("[seq= " + seq + "] 해당 게시글이 존재하지 않습니다. 다시한번 확인해주세요"));
 
 		return new BoardResponseDTO(board);
 	}
@@ -47,10 +51,23 @@ public class BoardService {
 	/* 4. 게시글 - 수정*/
 	public Long update(Long seq, BoardUpdateRequestDTO board) {
 
-		Board updateBoard = boardRepository.findById(seq).orElseThrow( () -> new IllegalAccessError("[seq= " + seq + "] 해당 게시글이 존재하지 않습니다."));
+		Board updateBoard = boardRepository.findById(seq).orElseThrow( () -> new IllegalAccessError("[seq= " + seq + "] 해당 게시글이 존재하지 않습니다. 다시한번 확인해주세요"));
 		updateBoard.update( board.getSubject(), board.getContent());
+		
+		logger.info("updateBoard : " + updateBoard.toString());
 		return seq;
 	}
+
+
+	/* 5. 게시글 - 삭제*/
+	public void deleteBoard(Long seq) {
+	
+		Board board = boardRepository.findById(seq).orElseThrow(() -> new IllegalAccessError("seq = " + seq + "] 해당 게시글이 존재하지 않습니다. 다시한번 확ㅇ니해주세요"));
+		boardRepository.delete(board);
+		
+	}
+
+
 
 
 

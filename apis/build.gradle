@@ -33,6 +33,7 @@ dependencies {
 		
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'org.aspectj:aspectjweaver:1.9.6'
 	annotationProcessor 'org.projectlombok:lombok'
 	
 	
