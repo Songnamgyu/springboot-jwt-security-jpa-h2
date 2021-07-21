@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -54,9 +55,9 @@ public class BoardController {
 	})
 	@ApiOperation(value = "게시글 조회" , notes = "게시글을 조회한다.")
 	@GetMapping(value = "/user/selectAllBoard")
-	public ResponseEntity<List<BoardResponseDTO>> findAll() {
+	public ResponseEntity<List<BoardResponseDTO>> findAll(final Pageable pageable) {
 		
-		List<BoardResponseDTO> boardSelectAllList = boardService.findAll();
+		List<BoardResponseDTO> boardSelectAllList = boardService.findAll(pageable);
 		
 		return new ResponseEntity<List<BoardResponseDTO>>(boardSelectAllList, HttpStatus.OK);
 	}
@@ -97,7 +98,6 @@ public class BoardController {
 	})
 	@ApiOperation(value = "게시글 수정" , notes = "게시글을 수정합니다.")
 	@PutMapping(value = "/user/board/update/{seq}")
-	@Transactional
 	public ResponseEntity<Long> updateBoard (@PathVariable("seq") Long seq,
 			@ApiParam (value = "제목 : ", required = true ) @RequestParam String subject,	
 			@ApiParam (value = "내용: " , required = true) @RequestParam String content) {
@@ -117,7 +117,6 @@ public class BoardController {
 	})
 	@ApiOperation(value = "게시글 삭제", notes = "게시글을 삭제 합니다.")
 	@DeleteMapping(value = "/user/board/delete/{seq}",  produces = { MediaType.APPLICATION_JSON_VALUE })
-	@Transactional
 	public ResponseEntity<Long> deleteBoard (@PathVariable("seq") Long seq){
 		
 		boardService.deleteBoard(seq);
