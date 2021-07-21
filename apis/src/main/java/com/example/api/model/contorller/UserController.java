@@ -131,6 +131,7 @@ public class UserController {
 										 @ApiParam(value = "회원아이디", required = true) @RequestParam String id,
 										 @ApiParam(value = "회원등급" , required = true) @RequestParam String role){
 		
+		
 		User user = User.builder()
 				.id(pk)
 				.password(passwordEncoder.encode(password))
