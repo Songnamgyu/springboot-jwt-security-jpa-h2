@@ -109,10 +109,10 @@ public class UserController {
 		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token" , required = true, dataType = "String", paramType = "header") 
 	})
 	@ApiOperation(value= "회원삭제" , notes = "회원정보를 삭제한다")
-	@DeleteMapping(value = "/admin/delete/{id}")
-	public CommonResult delete (@ApiParam(value = "회원번호" , required = true) @PathVariable Long id) {
+	@DeleteMapping(value = "/admin/delete/{seq}")
+	public CommonResult delete (@ApiParam(value = "회원번호" , required = true) @PathVariable Long seq) {
 
-		userJpaRepo.deleteById(id);
+		userJpaRepo.deleteById(seq);
 
 		// 성공결과 정보만 필요한 경우 getSuccessResult()를 이용하여 결과를 출력한다.
 		return responsService.getSuccessResult();

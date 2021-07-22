@@ -76,6 +76,11 @@ public class User implements UserDetails {
 	}
 	
 
+	public String getUserName() {
+		return this.userName;
+	}
+	
+
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@Override
 	public boolean isAccountNonExpired() {

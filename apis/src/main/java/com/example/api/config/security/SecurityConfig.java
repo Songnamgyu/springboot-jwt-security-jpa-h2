@@ -1,5 +1,6 @@
 package com.example.api.config.security;
 
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -64,5 +65,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		web.ignoring().antMatchers("/h2-console/**", "/v2/api-docs", "/swagger-resources/**",
                 					"/swagger-ui.html", "/webjars/**", "/swagger/**");
+		
+		web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+
 	}
 }
