@@ -76,8 +76,6 @@ public class TimeTraceAOP {
 		return result;
 	}
 
-	/*===============================================================================================================*/	
-
 	// 2. parameter console창에 확인 하는거 설정시작
 	private String paramMapToString(Map<String, String[]> paramMap) {
 		return paramMap.entrySet().stream()
