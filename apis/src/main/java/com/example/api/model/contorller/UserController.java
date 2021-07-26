@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import net.bytebuddy.asm.Advice.This;
 
-@Api(tags = {"2. User"})
+@Api(tags = {"2. User"}) 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/v1")
