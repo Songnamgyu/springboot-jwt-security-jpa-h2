@@ -37,7 +37,7 @@ public class DBinit implements CommandLineRunner {
 		List<String> auth = Arrays.asList("ROLE_ADMIN");
 		
 		// 관리자에 해당하는 정보(Entity)에 맞게 넣어준다.
-		User admin = new User(0L, "Admin", passwordEncoder.encode("1234"), "운영자", auth);
+		User admin = new User(0L, "Admin", passwordEncoder.encode("1234"), "운영자", auth, null, null);
 		
 		// 게시판에 해당되는 정보 (Entity)에  맞게 넣어줌
 

@@ -1,5 +1,6 @@
 package com.example.api.model.dto.entity;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -12,6 +13,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PostPersist;
+import javax.persistence.PrePersist;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -34,6 +37,22 @@ import lombok.ToString;
 public class User implements UserDetails {
 
 	private static final long serialVersionUID = 1957380853771500260L;
+	
+	@PrePersist
+	public void prePersist() {
+		System.out.println(">>>>>> prePersist");
+		System.out.println(this.createdAt = LocalDateTime.now());
+		System.out.println(this.updateAt = LocalDateTime.now());
+
+	}
+	
+	
+	@PostPersist
+	public void postPersist() {
+		System.out.println(">>>>>> postPersist");
+		System.out.println(this.createdAt = LocalDateTime.now());
+		System.out.println(this.updateAt = LocalDateTime.now());
+	}
 
 	@Id
 	//@GenerateValue는 SQL에서으 sequence개념과 비슷하다
@@ -53,6 +72,11 @@ public class User implements UserDetails {
 	@ElementCollection(fetch = FetchType.EAGER)
 	@Builder.Default
 	private List<String> roles = new ArrayList<>();
+
+	private LocalDateTime createdAt;
+
+	private LocalDateTime updateAt;
+	
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
