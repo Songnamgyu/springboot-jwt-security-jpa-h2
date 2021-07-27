@@ -13,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PostLoad;
 import javax.persistence.PostPersist;
 import javax.persistence.PrePersist;
 
@@ -54,6 +55,11 @@ public class User implements UserDetails {
 		System.out.println(this.updateAt = LocalDateTime.now());
 	}
 
+	@PostLoad
+	public void postLoad() {
+		System.out.println("=================== PostLoad ==================");
+	}
+	
 	@Id
 	//@GenerateValue는 SQL에서으 sequence개념과 비슷하다
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
