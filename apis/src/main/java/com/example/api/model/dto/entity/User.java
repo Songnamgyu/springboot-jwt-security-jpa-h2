@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PostLoad;
 import javax.persistence.PostPersist;
+import javax.persistence.PostUpdate;
 import javax.persistence.PrePersist;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -59,6 +60,12 @@ public class User implements UserDetails {
 	public void postLoad() {
 		System.out.println("=================== PostLoad ==================");
 	}
+	
+	@PostUpdate
+	public void postUpdate() {
+		System.out.println("================== PostUpdate =================");
+	}
+	
 	
 	@Id
 	//@GenerateValue는 SQL에서으 sequence개념과 비슷하다
