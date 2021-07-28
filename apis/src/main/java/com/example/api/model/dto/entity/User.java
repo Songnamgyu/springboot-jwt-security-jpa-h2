@@ -56,12 +56,9 @@ public class User implements UserDetails {
 		System.out.println(this.updateAt = LocalDateTime.now());
 	}
 
-	@PostLoad
-	public void postLoad() {
-		System.out.println("=================== PostLoad ==================");
-	}
-	
 
+	
+	
 	
 	
 	@Id
