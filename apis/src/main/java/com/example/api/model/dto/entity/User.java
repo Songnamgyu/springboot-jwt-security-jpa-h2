@@ -61,10 +61,7 @@ public class User implements UserDetails {
 		System.out.println("=================== PostLoad ==================");
 	}
 	
-	@PostUpdate
-	public void postUpdate() {
-		System.out.println("================== PostUpdate =================");
-	}
+
 	
 	
 	@Id
